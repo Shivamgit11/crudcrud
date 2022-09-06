@@ -37,11 +37,13 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 function shownewUserOnScreen(user) {
+
+    
     const parentNode = document.getElementById('listofusers');
 
-    const childHtml = `<li id=${user.email}>${user.name} -- ${user.email} 
-                                <button onclick=deleteuser('${user.email}')> DeleteUser </button>
-                                <button onclick=editUserDetails('${user.email}','${user.name}','${user.phonenumber}')>Edit User</button>
+    const childHtml = `<li id=${user._id}>${user.name} -- ${user.email} -- ${user._id}
+                                <button onclick=deleteuser('${user._id}')> DeleteUser </button>
+                                <button onclick=editUserDetails('${user._id}','${user.name}','${user.phonenumber}')>Edit User</button>
                             </li>`
     parentNode.innerHTML = parentNode.innerHTML + childHtml;
 }
@@ -56,15 +58,22 @@ function editUserDetails(emailId, name, phonenumber) {
 
 }
 
-function deleteuser(emailId){
-    console.log(emailId);
-    localStorage.removeItem(emailId);
-    removeUserFromScreen(emailId);
+function deleteuser(userId){
+    axios.delete(`https://crudcrud.com/api/526cf20059e541fcbc6f2c029913fa11/appointmentData/${userId}`)
+    .then((response) => {
+        removeUserFromScreen(userId);  
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    // console.log(userId);
+    // localStorage.removeItem(emailId);
+    // removeUserFromScreen(emailId);
 
 }
-function removeUserFromScreen(emailId){
+function removeUserFromScreen(userId){
     const parentNode = document.getElementById('listofusers');
-    const childNodetoBeDeleted = document.getElementById(emailId);
+    const childNodetoBeDeleted = document.getElementById(userId);
 
     parentNode.removeChild(childNodetoBeDeleted);
     
