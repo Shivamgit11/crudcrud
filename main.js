@@ -10,7 +10,7 @@ function saveToLocalStorage(event) {
         phonenumber
     }
 
-    axios.post("https://crudcrud.com/api/3a2f0ad745974ebfb7eb105414715509/appointmentData", obj)
+    axios.post("https://crudcrud.com/api/526cf20059e541fcbc6f2c029913fa11/appointmentData", obj)
     .then((response) => {
         shownewUserOnScreen(response.data)
         console.log(response)
@@ -21,6 +21,20 @@ function saveToLocalStorage(event) {
    // localStorage.setItem(obj.email, JSON.stringify(obj));
     //shownewUserOnScreen(obj); 
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    axios.get("https://crudcrud.com/api/526cf20059e541fcbc6f2c029913fa11/appointmentData")
+    .then((response) => {
+        console.log(response)
+        for(var i =0; i< response.data.length; i++){
+            shownewUserOnScreen(response.data[i])
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+    
+})
 
 function shownewUserOnScreen(user) {
     const parentNode = document.getElementById('listofusers');
